@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Simple.ViewModel.AutoMapper;
 
 namespace Simple.MVC
 {
@@ -18,6 +19,8 @@ namespace Simple.MVC
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+			ConfigMapper.MapAll(); // Kickstart AutoMapper; Declare Maps
         }
     }
 }
