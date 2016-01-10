@@ -70,6 +70,21 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Simple.Domain\Simple.Domain.csproj">
+      <Project>{5e285bf6-b702-4afb-9b90-01e277207d93}</Project>
+      <Name>Simple.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AutoMapper\Mappings\" />
+    <Folder Include="AutoMapper\Resolvers\" />
+    <Folder Include="Base\" />
+    <Folder Include="Common\" />
+    <Folder Include="DTO\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
