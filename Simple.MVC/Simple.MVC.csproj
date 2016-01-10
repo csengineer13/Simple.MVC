@@ -176,9 +176,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleDbContext.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -239,6 +240,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Simple.Domain\Simple.Domain.csproj">
+      <Project>{5e285bf6-b702-4afb-9b90-01e277207d93}</Project>
+      <Name>Simple.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Simple.ViewModel\Simple.ViewModel.csproj">
       <Project>{13fe8943-a545-4dcf-bfa8-3a37308d2eb7}</Project>
       <Name>Simple.ViewModel</Name>
