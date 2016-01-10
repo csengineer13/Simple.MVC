@@ -238,6 +238,12 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Simple.ViewModel\Simple.ViewModel.csproj">
+      <Project>{13fe8943-a545-4dcf-bfa8-3a37308d2eb7}</Project>
+      <Name>Simple.ViewModel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

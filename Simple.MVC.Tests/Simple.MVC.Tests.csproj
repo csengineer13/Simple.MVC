@@ -92,9 +92,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Simple.Domain\Simple.Domain.csproj">
+      <Project>{5e285bf6-b702-4afb-9b90-01e277207d93}</Project>
+      <Name>Simple.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Simple.MVC\Simple.MVC.csproj">
       <Project>{23D8C33D-F701-43B1-B854-CB7CFADE1C6E}</Project>
       <Name>Simple.MVC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Simple.ViewModel\Simple.ViewModel.csproj">
+      <Project>{13fe8943-a545-4dcf-bfa8-3a37308d2eb7}</Project>
+      <Name>Simple.ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
