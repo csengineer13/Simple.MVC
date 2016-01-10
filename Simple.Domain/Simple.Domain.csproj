@@ -68,6 +68,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Test\Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -76,7 +77,6 @@
     <Folder Include="EnumAndConstants\" />
     <Folder Include="Exceptions\" />
     <Folder Include="Interfaces\" />
-    <Folder Include="Model\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
