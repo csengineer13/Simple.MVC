@@ -1,5 +1,3 @@
-using Simple.MVC.Models;
-
 namespace Simple.MVC.Migrations
 {
     using System;

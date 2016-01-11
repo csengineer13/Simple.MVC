@@ -77,6 +77,7 @@
     <Compile Include="AutoMapper\Mappings\TestMapping.cs" />
     <Compile Include="DTO\Test\TestDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Account\AccountViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Simple.Domain\Simple.Domain.csproj">
@@ -89,7 +90,6 @@
     <Folder Include="Base\" />
     <Folder Include="Common\" />
     <Folder Include="Interfaces\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
