@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Simple.ViewModel.DTO.User
+namespace Simple.ViewModel.DTO
 {
 	public class LoggedInUserDTO
 	{
