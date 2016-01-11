@@ -1,9 +1,10 @@
 ﻿using System;
 using Simple.ViewModel.Base;
+using Simple.ViewModel.DTO;
 
 namespace Simple.ViewModel.ViewModels
 {
-	public class HomeViewModel : ViewModelBase<HomeDto, HomeDetailDto, Guid>
+	public class HomeViewModel : ViewModelBase<HomeDTO, HomeDetailDTO, Guid>
 	{
 		public HomeViewModel()
 		{
@@ -15,6 +16,7 @@ namespace Simple.ViewModel.ViewModels
 			return new Guid();
 		}
 
-		public HomeViewModelMeta Meta { get; set; }
+		// todo
+		//public HomeViewModelMeta Meta { get; set; }
 	}
 }
