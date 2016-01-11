@@ -9,6 +9,10 @@ A .NET MVC project with pre-installed nuget packages, project setup, and basic C
 	- Downloads project dependencies
 - Update `Web.Config`'s connection string to point to a DB
 - Run `database-update` in Package Manager Console (target MVC project)
+- Open Command Prompt
+	- Navigate to MVC directory of project
+	- Run `npm install`
+	- Run `bower install`
 
 
 ## Project Structure
