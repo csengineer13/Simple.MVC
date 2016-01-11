@@ -7,6 +7,7 @@ namespace Simple.ViewModel.DTO
 	{
 		public Guid Id { get; set; }
 		public string ClientId { get; set; }
+
 		public long PageCount { get; set; }
 		public long TotalItemCount { get; set; }
 		public long PageNumber { get; set; }
