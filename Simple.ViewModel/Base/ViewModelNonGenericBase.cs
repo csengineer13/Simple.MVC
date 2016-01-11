@@ -35,7 +35,6 @@ namespace Simple.ViewModel
 		public bool IsTableLoading { get; set; }
 
 		public string DefaultSammyRoute { get; set; }
-		public int StatusCode { get; set; }
 
 		public KOMapping KOMapping { get; set; }
 		public SimpleModelState ModelState { get; set; }
