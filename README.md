@@ -2,6 +2,12 @@
 
 A .NET MVC project with pre-installed nuget packages, project setup, and basic CRUD to reduce new project startup time.
 
+## Dependencies
+
+- Node + NPM
+- Bower
+
+
 ## First Time...
 
 - Clone Repo
