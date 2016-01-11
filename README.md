@@ -20,14 +20,16 @@ A .NET MVC project with pre-installed nuget packages, project setup, and basic C
 
 ## Installed:
 
-- AutoMapper [Install](https://www.nuget.org/packages/AutoMapper/) | [Docs](https://github.com/AutoMapper/AutoMapper/wiki/Getting-started)
-- Faker.NET
+- **AutoMapper** [Install](https://www.nuget.org/packages/AutoMapper/) | [Docs](https://github.com/AutoMapper/AutoMapper/wiki/Getting-started)
+- **Bogus** [Install](https://www.nuget.org/packages/Bogus/) | [Docs](https://github.com/bchavez/Bogus)
 
 
 ### Swapping/Similar Tools
 
-- *AutoMapper* is a very powerful tool that makes it easy to _map_ from one class to another. Common use cases are from forms to domain object, or from domain objects to view models.
+- **AutoMapper** is a very powerful tool that makes it easy to _map_ from one class to another. Common use cases are from forms to domain object, or from domain objects to view models.
 	- [Dapper](https://github.com/StackExchange/dapper-dot-net) is a commonly used alternative.
+- **Bogus** is a port of faker.js. It's used to seed your database with some tasy fake (but realistic looking) data. It's one of the newer ports, and has decent adoption. This is the first time I've used it over Faker.NET
+	- [Faker.Net](https://www.nuget.org/packages/Faker.Net/) or [here](https://github.com/slashdotdash/faker-cs)
 
 
 ### What's Next?
