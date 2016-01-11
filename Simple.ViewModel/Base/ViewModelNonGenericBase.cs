@@ -2,7 +2,7 @@
 using System.Net;
 using Newtonsoft.Json;
 using Simple.ViewModel.Common;
-using Simple.ViewModel.DTO.User;
+using Simple.ViewModel.DTO;
 
 namespace Simple.ViewModel
 {
@@ -12,7 +12,6 @@ namespace Simple.ViewModel
 		{
 			ModelState = new SimpleModelState();
 			KOMapping = new KOMapping();
-			StatusCode = (int) HttpStatusCode.OK;
 			HasDialog = false;
 			HasAlerts = true;
 			Title = "";
