@@ -22,15 +22,18 @@
 	@*@Html.Partial("Components/_Icons")*@
 	<!-- /icons -->
 
-	<header>
-		@Html.Partial("Components/_Header")
-	</header>
+	<div class="container">
+		<header>
+			@Html.Partial("Components/_Header")
+		</header>
 
-	@RenderBody()
-	@*@Html.Partial("Components/_Footer")*@
-	@RenderSection("Modals", required: false)
+		<main>
+			@RenderBody()
+		</main>
+		@*@Html.Partial("Components/_Footer")*@
+		@RenderSection("Modals", required: false)
 
-
+	</div>
 	<!-- toolkit scripts -->
 	@Scripts.Render("~/bundles/vendor-and-toolkit-js")
 	@Scripts.Render("~/bundles/site-js")
