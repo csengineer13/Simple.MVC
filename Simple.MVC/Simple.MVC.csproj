@@ -191,12 +191,19 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="gulpfile.js" />
     <Content Include="Scripts\app.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\vendor.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -234,6 +241,10 @@
     <Content Include="package.json" />
     <Content Include="bower.json" />
     <Content Include="Content\sass\site.scss" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
     <None Include="Project_Readme.html" />
     <Content Include="Views\Shared\Components\_Header.cshtml" />
     <Content Include="Views\Shared\Components\_LoginPartial.cshtml" />

@@ -10,7 +10,7 @@ namespace Simple.MVC
 			// JS
 			bundles.Add(new ScriptBundle("~/bundles/vendor-and-toolkit-js")
 				.Include("~/Scripts/vendor.js")
-				.Include("~/Toolkit/dist/assets/toolkit/scripts/toolkit.js")
+				.Include("~/Scripts/boostrap.min.js")
 				);
 
 			bundles.Add(new ScriptBundle("~/bundles/site-js")
@@ -20,13 +20,13 @@ namespace Simple.MVC
 
 
 			// CSS
-			bundles.Add(new StyleBundle("~/Content/vendor-and-toolkit-css")
-				.Include("~/Content/vendor.css")
-				.Include("~/Toolkit/dist/assets/toolkit/styles/toolkit.css")
+			bundles.Add(new StyleBundle("~/Content/bootstrap-css")
+				.Include("~/Content/bootstrap.min.css")
+				.Include("~/Content/bootstrap.min.css.map")
 				);
 
 			bundles.Add(new StyleBundle("~/Content/site-css")
-				.Include("~/Content/site.css")
+				.Include("~/Content/css/site.css")
 				);
 		}
 	}
