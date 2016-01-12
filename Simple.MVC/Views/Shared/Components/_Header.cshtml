@@ -1,0 +1,21 @@
+﻿<nav>
+	<ul>
+		<li><a href="/">Home</a></li>
+		<li><a href="/about">About</a></li>
+		<li><a href="/contact">Contact</a></li>
+	</ul>
+
+	<section>
+		<!-- ko if: User.UserName -->
+		<div>
+			<img src="http://placehold.it/50x50"/>
+			<span>{{Username}}'s Account</span>
+		</div>
+		<!-- /ko -->
+		<!-- ko ifnot: User.UserName -->
+
+		<!-- /ko -->
+	</section>
+</nav>
+
+@*@Html.Partial("_LoginPartial")*@

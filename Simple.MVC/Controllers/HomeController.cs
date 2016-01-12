@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using Simple.ViewModel.ViewModels;
 
 namespace Simple.MVC.Controllers
 {
@@ -10,7 +7,8 @@ namespace Simple.MVC.Controllers
 	{
 		public ActionResult Index()
 		{
-			return View();
+			var vm = new HomeViewModel();
+			return View(vm);
 		}
 
 		public ActionResult About()

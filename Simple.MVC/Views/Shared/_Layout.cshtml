@@ -22,12 +22,14 @@
 	@*@Html.Partial("Components/_Icons")*@
 	<!-- /icons -->
 
-	<div class="container">
-		@*@Html.Partial("Components/_Header")*@
-		@RenderBody()
-		@*@Html.Partial("Components/_Footer")*@
-		@RenderSection("Modals", required: false)
-	</div>
+	<header>
+		@Html.Partial("Components/_Header")
+	</header>
+
+	@RenderBody()
+	@*@Html.Partial("Components/_Footer")*@
+	@RenderSection("Modals", required: false)
+
 
 	<!-- toolkit scripts -->
 	@Scripts.Render("~/bundles/vendor-and-toolkit-js")
@@ -36,11 +38,12 @@
 	@if (Model != null)
 	{
 		<script type="text/javascript">
-        window.appnamespace = 'simple';
-        (function () {
-            simple['@Model.Title'] = new simple['@Model.Title'](@Html.Raw(Model.ToJson()));
-        }(window[window.appnamespace] = window[window.appnamespace] || {}));
+			window.appnamespace = 'simple';
+			(function () {
+				simple['@Model.Title'] = new simple['@Model.Title'](@Html.Raw(Model.ToJson()));
+			}(window[window.appnamespace] = window[window.appnamespace] || {}));
 		</script>
 	}
 </body>
+
 </html>
