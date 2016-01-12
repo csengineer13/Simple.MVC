@@ -191,12 +191,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="gulpfile.js" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\vendor.js" />
@@ -223,7 +221,6 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -236,7 +233,10 @@
     <Content Include="packages.config" />
     <Content Include="package.json" />
     <Content Include="bower.json" />
+    <Content Include="Content\sass\site.scss" />
     <None Include="Project_Readme.html" />
+    <Content Include="Views\Shared\Components\_Header.cshtml" />
+    <Content Include="Views\Shared\Components\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Simple.Domain\Simple.Domain.csproj">
