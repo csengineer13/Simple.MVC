@@ -1,0 +1,22 @@
+{
+	"name": "simple",
+	"version": "0.0.0",
+	"homepage": "https://github.com/csengineer13/Simple.MVC",
+	"authors": [
+		"danny brown"
+	],
+	"license": "MIT",
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"test",
+		"tests"
+	],
+	"dependencies": {
+		"knockout": "~3.4.0",
+		"js-cookie": "~2.0.4",
+		"jquery": "jQuery#~2.1.4",
+		"bower-knockout-mapping": "~2.5.0"
+	}
+}
