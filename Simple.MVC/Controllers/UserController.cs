@@ -21,7 +21,8 @@ namespace Simple.MVC.Controllers
 		public ActionResult Index()
 		{
 			var vm = new UserViewModel {User = _loggedInUser};
-			vm.List = Mapper.Map<List<UserDTO>>(_unitOfWork.UserRepository.GetAll().ToList());
+			var resultSet = _unitOfWork.UserRepository.GetAll().ToList();
+			vm.List = Mapper.Map<List<UserDTO>>(resultSet);
 			return View(vm);
 		}
 	}

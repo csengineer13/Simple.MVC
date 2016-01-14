@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using Simple.Domain.Entities;
 using Simple.ViewModel.DTO;
 
@@ -11,6 +12,13 @@ namespace Simple.ViewModel.AutoMapper.Mappings
 			Mapper.CreateMap<User, LoggedInUserDTO>()
 				.ForMember(d => d.Id, o => o.MapFrom(s => s.UserId.ToString()))
 				;
+
+			// Domain to DTO
+			Mapper.CreateMap<User, UserDTO>()
+				.ForMember(d => d.Id, o => o.MapFrom(s => s.UserId.ToString()))
+				.ForMember(d => d.ClientId, o => o.MapFrom(s => s.UserId.ToString()))
+				;
+
 		}
 	}
 }
