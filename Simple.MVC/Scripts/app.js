@@ -47,7 +47,7 @@ var VmBase = (function () {
 	};
 
 	// setup SignIn Method 
-	VmBase.SignIn = function () {
+	VmBase.prototype.SignIn = function () {
 		// this == LoginForm (see base VM;; C#)
 		var myForm = ko.toJS(this);
 		myForm.returnUrl = "";
