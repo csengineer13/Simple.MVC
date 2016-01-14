@@ -7,17 +7,22 @@ A .NET MVC project with pre-installed nuget packages, project setup, and basic C
 Listed in order of priority
 
 - Boilerplate controller for CRUD
-	- Automatic table/list generation
+	- ~~Automatic table/list generation~~
 	- Paging, sorting, filtering
 	- View/Edit detail
 - Add SAMMY.JS
 - Boilerplate WebAPI controller for CRUD
+	- Look into ODATA
 - Add simple model errors
 - Add simple "anywhere alerts"
-- Add simple "anywhere "
+- Add simple "anywhere"
+- Add better user/role management
+	- Create distinction between admin and regular users
+- REFACTOR CRUD to be more re-usable
+	- Create controller/basevm for static pages
 - Base promises?
-- Example external API boilerplate?
 - Add Select2.JS
+- Add documentation around generating a new local SPA
 
 ## Dependencies
 
@@ -64,15 +69,16 @@ Listed in order of priority
 This is for small/simple projects. If you wanted to abstract things out further, you may want to consider the following:
 
 - Create additional projects:
-	- Simple.Repository
 	- Simple.Service
-	- Simple.Identity (Identity is IN MVC right now. Killing full AutoMapper maps in VM Proj [User])
+	- Simple.Identity (Identity is currently sitting in Repository)
 	- Simple.ExternalServices
-- Implement Dependency Injection using [Unity](https://github.com/unitycontainer/unity/tree/master/quickstarts)
+- ~~Implement Dependency Injection~~ using [Unity](https://github.com/unitycontainer/unity/tree/master/quickstarts)
+	- Add a Repositories wrapper (still go through unit of work)
+	- Add a Services Wrapper
 - Flush out Base/Common/[AggregateRoot](http://martinfowler.com/bliki/DDD_Aggregate.html) classes
-- Move migrations to the new Repository project
+- ~~Move migrations to the new Repository project~~
 - Implement [Command/Query Responsibility Segregation](http://martinfowler.com/bliki/CQRS.html) in the Service layer
-- Implement [Unit of Work](http://www.codeproject.com/Articles/581487/Unit-of-Work-Design-Pattern) design pattern
+- ~~Implement [Unit of Work](http://www.codeproject.com/Articles/581487/Unit-of-Work-Design-Pattern) design pattern~~
 
 We DO NOT do this in the current project because it adds a lot of boiler plate code that increases the time to dev. However, it big time increases maintainability, consistancy across projects, etc. To reduce development time, it may be worth looking into code scaffolding via:
 
