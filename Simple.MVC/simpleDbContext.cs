@@ -2,6 +2,7 @@
 using System.Data.Entity.ModelConfiguration.Conventions;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Simple.Domain.Model;
+using Simple.Domain.Model.User;
 
 // Help configuring contexts w/ Identity defaults
 // http://stackoverflow.com/questions/28531201/entitytype-identityuserlogin-has-no-key-defined-define-the-key-for-this-entit
@@ -36,6 +37,7 @@ namespace Simple.MVC
 		public DbSet<IdentityUserRole> UserRoles { get; set; }
 
 		// Custom DbSets
+		public DbSet<DomainUser> Users { get; set; }
 		public DbSet<Test> Tests { get; set; }
 
 
@@ -50,6 +52,7 @@ namespace Simple.MVC
 			// Configure Asp Net Identity Tables
 			modelBuilder.Entity<IdentityUser>().ToTable("User");
 			modelBuilder.Entity<User>().ToTable("User");
+			modelBuilder.Entity<DomainUser>().ToTable("User");
 			modelBuilder.Entity<IdentityUser>().Property(u => u.PasswordHash).HasMaxLength(500);
 			//modelBuilder.Entity<IdentityUser>().Property(u => u.Stamp).HasMaxLength(500);
 			//modelBuilder.Entity<IdentityUser>().Property(u => u.PhoneNumber).HasMaxLength(50);
