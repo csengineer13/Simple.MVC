@@ -1,0 +1,29 @@
+﻿@model Simple.ViewModel.ViewModelNonGenericBase
+
+<table class="table table-striped table-holder">
+	<thead>
+		<tr>
+			<!-- ko foreach: Columns -->
+			<th data-bind="css: { sorted : IsSortedUp() || IsSortedDown() }, hidden: IsHidden ">
+
+				<span data-bind="text: DisplayName, visible: DisableSort"></span>
+				<a data-bind="text: DisplayName, hidden: DisableSort" class="column-heading"></a>
+				<i class="fa fa-angle-up" data-bind="visible: IsSortedDown"></i>
+				<i class="fa fa-angle-down" data-bind="visible: IsSortedUp"></i>
+				<span></span>
+			</th>
+			<!-- /ko -->
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr data-bind="visible: $root.IsTableLoading"><td colspan="100"><i class="fa fa-refresh fa-spin"></i> Loading</td></tr>
+		<!-- ko foreach: List-->
+		@Html.Partial("Table/_Row")
+		<!-- /ko -->
+		<tr data-bind="visible: List().length === 0 && $root.IsTableLoading() == false"><td colspan="100">No Results</td></tr>
+	</tbody>
+</table>
+<div class="pagination-container">
+	@Html.Partial("Table/_Paging")
+</div>

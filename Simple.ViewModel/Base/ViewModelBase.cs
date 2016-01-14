@@ -29,9 +29,7 @@ namespace Simple.ViewModel.Base
 		{
 			get
 			{
-				// todo: implement this
-				//return ViewModelMeta.GetColumns(List);
-				return new List<ColumnData>();
+				return ViewModelMeta.GetColumns(List);
 			}
 		}
 

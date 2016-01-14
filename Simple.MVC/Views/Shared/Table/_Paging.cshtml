@@ -1,0 +1,50 @@
+﻿<nav>
+	@*
+		<div data-bind="with: $root.PageInfo" class="pagination per-page">
+			<select class="form-control page-size select2" data-bind=" value: PageSize, options: $root.Meta.PageSizes"></select>
+		</div>
+	*@
+
+	<div data-bind="with: PageInfo" class="pull-right pagination">
+		<!-- ko if: TotalItemCount() > 0 -->
+		<p><strong data-bind="text: FirstItemOnPage"></strong> - <strong data-bind="text: LastItemOnPage"></strong> of <strong data-bind="text: TotalItemCount"></strong> items</p>
+		<!-- /ko -->
+	</div>
+
+
+	<!-- ko with: $root.PageInfo -->
+	<ul class="pagination">
+		<li data-bind="css: { 'disabled' : !HasPreviousPage() }" class="btn btn-plain">
+			<a class="first">first <i class="fa fa-angle-double-left brand-info"></i></a>
+
+		</li>
+
+		<li data-bind="css: { 'disabled' : !HasPreviousPage() }" class="btn btn-plain">
+			<a class="prev">prev <i class="fa fa-angle-left brand-info"></i></a>
+		</li>
+
+		<li data-bind="css: { 'disabled' : !HasNextPage() }" class="btn btn-plain">
+			<a class="next">next <i class="fa fa-angle-right brand-info"></i></a>
+		</li>
+		<li data-bind="css: { 'disabled' : !HasNextPage() }" class="btn btn-plain">
+			<a class="last">last <i class="fa fa-angle-double-right brand-info"></i></a>
+		</li>
+	</ul>
+
+	<div class="pagingsize-selector">
+		<div class="pagination">
+			<select class="form-control page-size" data-bind="value: PageSize, valueAllowUnset: true">
+				<option value="10">10</option>
+				<option value="25">25</option>
+				<option value="50">50</option>
+				<option value="100">100</option>
+			</select>
+		</div>
+
+		<div class="pagination pagination-pageszdesc">
+			<span>Items per page</span>
+		</div>
+	</div>
+
+	<!-- /ko -->
+</nav>

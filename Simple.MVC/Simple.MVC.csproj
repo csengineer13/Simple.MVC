@@ -287,6 +287,9 @@
     <None Include="Project_Readme.html" />
     <Content Include="Views\Shared\Components\_Header.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Shared\Table\_Table.cshtml" />
+    <Content Include="Views\Shared\Table\_Row.cshtml" />
+    <Content Include="Views\Shared\Table\_Paging.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Simple.Domain\Simple.Domain.csproj">
