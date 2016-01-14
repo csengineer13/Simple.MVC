@@ -82,6 +82,7 @@
     <Compile Include="Configuration\ExternalLoginConfiguration.cs" />
     <Compile Include="Configuration\RoleConfiguration.cs" />
     <Compile Include="Configuration\UserConfiguration.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ExternalLoginRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
