@@ -9,8 +9,8 @@
 </div>
 
 <div class="row">
-	<!-- ko if: User.UserName() == null -->
-	<div class="col-md-4" data-bind="if: User.UserName() == null">
+	<!-- ko if: User.UserName() == "" -->
+	<div class="col-md-4">
 		<h2>Register Here</h2>
 		<form class="" data-bind="with: RegisterForm">
 			<div class="form-group">
@@ -30,7 +30,7 @@
 	</div>
 	<!-- /ko -->
 
-	<!-- ko ifnot: User.UserName() == null -->
+	<!-- ko ifnot: User.UserName() == "" -->
 	<div class="col-md-4">
 		<h2>You're Logged In!</h2>
 		<p>This is different content for logged in users!</p>
