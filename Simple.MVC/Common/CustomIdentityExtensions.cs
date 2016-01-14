@@ -27,7 +27,7 @@ namespace Simple.MVC.Common
 		{
 			var val = identity.FindFirst(claimType);
 
-			return val == null ? " " : val.Value;
+			return val == null ? "" : val.Value;
 		}
 	}
 }

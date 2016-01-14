@@ -46,32 +46,16 @@ var VmBase = (function () {
 		//this.NewItemDetail = mapper.toJs(this.ItemDetail);
 	};
 
+
 	// setup SignIn Method 
-	VmBase.prototype.Register = function () {
-		// this == LoginForm (see base VM;; C#)
-		var myForm = ko.toJS(this);
-		myForm.returnUrl = "";
-
-
-		// todo: loading icon...
-		// todo: populate loggedInUser...
-		// todo: verify loggedInUser is populated on fullpage refresh...
-		// todo: verify logout...
-
-		//var promise =
+	VmBase.prototype.SignOut = function () {
 		$.ajax({
 			method: "POST",
-			url: "/Account/Register",
-			data: myForm
+			url: "/Account/LogOff"
 		})
-		.done(function (data) {
-			console.log("DONE");
-			console.log(data);
-		})
-		.fail(function (data) {
-			console.log("FAIL");
-			console.log(data);
-		});
+			.done(function (data) {
+				location.reload();
+			});
 	};
 
 	return VmBase;
@@ -91,33 +75,50 @@ var Home =
     		$('.hideUnbound').removeClass('hideUnbound');
 
 
-    		// setup SignIn Method 
-		var _self = this;
-		this.SignIn = function ()
-		{
-			// todo: loading icon...
 
-			var myForm = ko.toJS(_self.LoginForm);
+    		// setup SignIn Method 
+    		VmBase.prototype.Register = function () {
+    			// this == LoginForm (see base VM;; C#)
+    			var myForm = ko.toJS(this);
     			myForm.returnUrl = "";
 
-    			// todo: verify loggedInUser is populated on fullpage refresh...
-    			// todo: verify logout...
+
+    			// todo: loading icon...
+    			$.ajax({
+    				method: "POST",
+    				url: "/Account/Register",
+    				data: myForm
+    			})
+				.done(function (data) {
+					// todo: check to see if we received a SimpleModelState back...
+					ko.mapping.fromJS(data, {}, _self.User);
+				})
+				.fail(function (data) {
+					console.log("Die silently...");
+					console.log(data);
+				});
+    		};
+
+    		// setup SignIn Method 
+    		var _self = this;
+    		this.SignIn = function () {
+
+    			var myForm = ko.toJS(_self.LoginForm);
+    			myForm.returnUrl = "";
 
     			$.ajax({
     				method: "POST",
     				url: "/Account/Login",
     				data: myForm
     			})
-				.done(function (data) {
-					console.log("DONE");
-					console.log(data);
-		
-					ko.mapping.fromJS(data, {}, _self.User);
-				})
-				.fail(function (data) {
-					console.log("FAIL");
-					console.log(data);
-				});
+			.done(function (data) {
+				// todo: check to see if we received a SimpleModelState back...
+				ko.mapping.fromJS(data, {}, _self.User);
+			})
+			.fail(function (data) {
+				console.log("Die silently...");
+				console.log(data);
+			});
     		};
     	}
 
