@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="AutoMapper\ConfigMapper.cs" />
     <Compile Include="AutoMapper\Mappings\TestMapping.cs" />
+    <Compile Include="AutoMapper\Mappings\UserMapping.cs" />
     <Compile Include="Base\IViewModelBase.cs" />
     <Compile Include="Base\ViewModelBase.cs" />
     <Compile Include="Base\ViewModelNonGenericBase.cs" />
