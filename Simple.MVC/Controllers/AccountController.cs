@@ -2,11 +2,14 @@
 using Microsoft.Owin.Security;
 using Simple.MVC.Identity;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using Simple.Domain.Repositories;
 using Simple.MVC.Common;
+using Simple.ViewModel.Common;
 using Simple.ViewModel.DTO;
 using Simple.ViewModel.ViewModels;
 
@@ -37,15 +40,7 @@ namespace Mvc5IdentityExample.Web.Controllers
 				if (user != null)
 				{
 					await SignInAsync(user, model.RememberMe);
-					var myUser = _userRepository.FindById(user.Id);
-					LoggedInUserDTO loggedInUserDTO = new LoggedInUserDTO
-					{
-						Id = myUser.UserId.ToString(),
-						UserName = myUser.UserName,
-						FirstName = myUser.FirstName,
-						LastName = myUser.LastName,
-						Email = myUser.Email
-					};
+					var loggedInUserDTO = Mapper.Map<LoggedInUserDTO>(_userRepository.FindById(user.Id));
 					return new JsonNetResult { Data = loggedInUserDTO };
 				}
 
@@ -70,15 +65,7 @@ namespace Mvc5IdentityExample.Web.Controllers
 				if (result.Succeeded)
 				{
 					await SignInAsync(user, isPersistent: false);
-					var myUser = _userRepository.FindById(user.Id);
-					LoggedInUserDTO loggedInUserDTO = new LoggedInUserDTO
-					{
-						Id = myUser.UserId.ToString(),
-						UserName = myUser.UserName,
-						FirstName = myUser.FirstName,
-						LastName = myUser.LastName,
-						Email = myUser.Email
-					};
+					var loggedInUserDTO = Mapper.Map<LoggedInUserDTO>(_userRepository.FindById(user.Id));
 					return new JsonNetResult { Data = loggedInUserDTO };
 				}
 
@@ -281,11 +268,11 @@ namespace Mvc5IdentityExample.Web.Controllers
 		//
 		// POST: /Account/LogOff
 		[HttpPost]
-		[ValidateAntiForgeryToken]
+		//[ValidateAntiForgeryToken]
 		public ActionResult LogOff()
 		{
 			AuthenticationManager.SignOut();
-			return RedirectToAction("Index", "Home");
+			return new JsonNetResult { Data = new SimpleModelState() };
 		}
 
 		//
@@ -329,6 +316,25 @@ namespace Mvc5IdentityExample.Web.Controllers
 		{
 			AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
 			var identity = await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+
+			// Grab user's info
+			var userId = identity.GetUserId();
+			var loggedInUserProfile = _userRepository.FindById(userId);
+
+			// Add it to claim (accessible until logged out)
+			if (loggedInUserProfile != null)
+			{
+				identity.AddClaim(new Claim(ClaimTypes.GivenName, loggedInUserProfile.FirstName ?? " "));
+				identity.AddClaim(new Claim(ClaimTypes.Surname, loggedInUserProfile.LastName ?? " "));
+				identity.AddClaim(new Claim(ClaimTypes.Email, loggedInUserProfile.Email ?? " "));
+			}
+			else
+			{
+				identity.AddClaim(new Claim(ClaimTypes.GivenName, ""));
+				identity.AddClaim(new Claim(ClaimTypes.Surname, ""));
+				identity.AddClaim(new Claim(ClaimTypes.Email, ""));
+			}
+
 			AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);
 		}
 
