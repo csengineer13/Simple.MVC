@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Simple.Domain.Entities;
 
 namespace Simple.Domain.Model
 {
@@ -11,10 +12,10 @@ namespace Simple.Domain.Model
 		public string BSPhrase { get; set; }
 
 		// Ref
-		public DomainUser Owner { get; set; }
+		public User Owner { get; set; }
 
 		// List Ref
 		public List<Address> Addresses { get; set; }
-		public List<DomainUser> Employees { get; set; }
+		public List<User> Employees { get; set; }
 	}
 }
