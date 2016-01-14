@@ -10,9 +10,11 @@ namespace Simple.ViewModel.ViewModels
 		{
 			Title = "Home";
 			LoginForm = new LoginViewModel();
+			RegisterForm = new RegisterViewModel();
 		}
 
 		public LoginViewModel LoginForm { get; set; }
+		public RegisterViewModel RegisterForm { get; set; }
 
 		public override Guid GetDefaultIdValue()
 		{

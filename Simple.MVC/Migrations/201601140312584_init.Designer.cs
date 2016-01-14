@@ -13,7 +13,7 @@ namespace Simple.MVC.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201601102304443_init"; }
+            get { return "201601140312584_init"; }
         }
         
         string IMigrationMetadata.Source

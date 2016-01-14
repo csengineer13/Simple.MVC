@@ -46,6 +46,10 @@ namespace Simple.MVC.Migrations
                         UserName = c.String(nullable: false),
                         PasswordHash = c.String(maxLength: 500),
                         SecurityStamp = c.String(),
+                        FirstName = c.String(),
+                        LastName = c.String(),
+                        Email = c.String(),
+                        Discriminator = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -74,31 +78,18 @@ namespace Simple.MVC.Migrations
                 .Index(t => t.RoleId)
                 .Index(t => t.UserId);
             
-            CreateTable(
-                "dbo.AspNetUsers",
-                c => new
-                    {
-                        Id = c.String(nullable: false, maxLength: 128),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.User", t => t.Id)
-                .Index(t => t.Id);
-            
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.AspNetUsers", "Id", "dbo.User");
             DropForeignKey("dbo.UserClaim", "User_Id", "dbo.User");
             DropForeignKey("dbo.UserRole", "UserId", "dbo.User");
             DropForeignKey("dbo.UserRole", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.UserLogin", "UserId", "dbo.User");
-            DropIndex("dbo.AspNetUsers", new[] { "Id" });
             DropIndex("dbo.UserClaim", new[] { "User_Id" });
             DropIndex("dbo.UserRole", new[] { "UserId" });
             DropIndex("dbo.UserRole", new[] { "RoleId" });
             DropIndex("dbo.UserLogin", new[] { "UserId" });
-            DropTable("dbo.AspNetUsers");
             DropTable("dbo.UserRole");
             DropTable("dbo.UserLogin");
             DropTable("dbo.User");

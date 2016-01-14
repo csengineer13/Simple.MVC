@@ -46,6 +46,18 @@ var VmBase = (function () {
 		//this.NewItemDetail = mapper.toJs(this.ItemDetail);
 	};
 
+
+	// setup SignIn Method 
+	VmBase.prototype.SignOut = function () {
+		$.ajax({
+			method: "POST",
+			url: "/Account/LogOff"
+		})
+			.done(function (data) {
+				location.reload();
+			});
+	};
+
 	return VmBase;
 })();
 
@@ -61,7 +73,53 @@ var Home =
     		this.data = data;
     		ko.applyBindings(this);
     		$('.hideUnbound').removeClass('hideUnbound');
-    		console.log("Some message here!");
+
+
+
+    		// setup SignIn Method 
+    		VmBase.prototype.Register = function () {
+    			// this == LoginForm (see base VM;; C#)
+    			var myForm = ko.toJS(this);
+    			myForm.returnUrl = "";
+
+
+    			// todo: loading icon...
+    			$.ajax({
+    				method: "POST",
+    				url: "/Account/Register",
+    				data: myForm
+    			})
+				.done(function (data) {
+					// todo: check to see if we received a SimpleModelState back...
+					ko.mapping.fromJS(data, {}, _self.User);
+				})
+				.fail(function (data) {
+					console.log("Die silently...");
+					console.log(data);
+				});
+    		};
+
+    		// setup SignIn Method 
+    		var _self = this;
+    		this.SignIn = function () {
+
+    			var myForm = ko.toJS(_self.LoginForm);
+    			myForm.returnUrl = "";
+
+    			$.ajax({
+    				method: "POST",
+    				url: "/Account/Login",
+    				data: myForm
+    			})
+			.done(function (data) {
+				// todo: check to see if we received a SimpleModelState back...
+				ko.mapping.fromJS(data, {}, _self.User);
+			})
+			.fail(function (data) {
+				console.log("Die silently...");
+				console.log(data);
+			});
+    		};
     	}
 
     	return Home;
