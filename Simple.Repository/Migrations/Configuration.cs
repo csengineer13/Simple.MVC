@@ -1,3 +1,5 @@
+using Simple.Repository.Migrations.Seed;
+
 namespace Simple.Repository.Migrations
 {
     using System;
