@@ -47,7 +47,7 @@ var VmBase = (function () {
 	};
 
 	// setup SignIn Method 
-	VmBase.prototype.SignIn = function () {
+	VmBase.prototype.Register = function () {
 		// this == LoginForm (see base VM;; C#)
 		var myForm = ko.toJS(this);
 		myForm.returnUrl = "";
@@ -61,7 +61,7 @@ var VmBase = (function () {
 		//var promise =
 		$.ajax({
 			method: "POST",
-			url: "/Account/Login",
+			url: "/Account/Register",
 			data: myForm
 		})
 		.done(function (data) {
@@ -89,6 +89,36 @@ var Home =
     		this.data = data;
     		ko.applyBindings(this);
     		$('.hideUnbound').removeClass('hideUnbound');
+
+
+    		// setup SignIn Method 
+		var _self = this;
+		this.SignIn = function ()
+		{
+			// todo: loading icon...
+
+			var myForm = ko.toJS(_self.LoginForm);
+    			myForm.returnUrl = "";
+
+    			// todo: verify loggedInUser is populated on fullpage refresh...
+    			// todo: verify logout...
+
+    			$.ajax({
+    				method: "POST",
+    				url: "/Account/Login",
+    				data: myForm
+    			})
+				.done(function (data) {
+					console.log("DONE");
+					console.log(data);
+		
+					ko.mapping.fromJS(data, {}, _self.User);
+				})
+				.fail(function (data) {
+					console.log("FAIL");
+					console.log(data);
+				});
+    		};
     	}
 
     	return Home;
