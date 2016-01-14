@@ -1,7 +1,8 @@
 ﻿using System;
 using Bogus;
+using Simple.Domain.Entities;
 
-namespace Simple.MVC.Migrations.Seed
+namespace Simple.Repository.Migrations.Seed
 {
 	public class UserSeed
 	{
@@ -12,8 +13,10 @@ namespace Simple.MVC.Migrations.Seed
 
 			// USER RULES
 			var testUsers = new Faker<User>()
-				.RuleFor(u => u.Id, f => Guid.NewGuid().ToString())
+				.RuleFor(u => u.UserId, f => Guid.NewGuid())
 				.RuleFor(u => u.UserName, f => f.Name.FirstName())
+				.RuleFor(u => u.LastName, f => f.Name.LastName())
+				.RuleFor(u => u.Email, f => f.Internet.Email())
 				//.RuleFor(u => u.Logins, f => 0)
 				;
 

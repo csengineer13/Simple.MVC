@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Domain", "Simple.Dom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.ViewModel", "Simple.ViewModel\Simple.ViewModel.csproj", "{13FE8943-A545-4DCF-BFA8-3A37308D2EB7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Repository", "Simple.Repository\Simple.Repository.csproj", "{99E7712E-095E-45DB-B514-6759BACB4C22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{13FE8943-A545-4DCF-BFA8-3A37308D2EB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13FE8943-A545-4DCF-BFA8-3A37308D2EB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13FE8943-A545-4DCF-BFA8-3A37308D2EB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99E7712E-095E-45DB-B514-6759BACB4C22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99E7712E-095E-45DB-B514-6759BACB4C22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99E7712E-095E-45DB-B514-6759BACB4C22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99E7712E-095E-45DB-B514-6759BACB4C22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

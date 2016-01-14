@@ -7,6 +7,7 @@ namespace Simple.ViewModel.AutoMapper
 		public static void MapAll()
 		{
 			TestMapping.Map();
+			UserMapping.Map();
 		}
 	}
 }

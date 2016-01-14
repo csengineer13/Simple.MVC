@@ -1,7 +1,5 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Simple.MVC.Base;
-using Simple.ViewModel.DTO;
 using Simple.ViewModel.ViewModels;
 
 namespace Simple.MVC.Controllers

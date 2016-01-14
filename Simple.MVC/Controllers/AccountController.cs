@@ -1,35 +1,31 @@
-﻿using System.Linq;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
+using Simple.MVC.Identity;
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Owin.Security;
+using Simple.Domain;
 using Simple.MVC.Common;
 using Simple.ViewModel.Common;
 using Simple.ViewModel.DTO;
 using Simple.ViewModel.ViewModels;
 
-namespace Simple.MVC.Controllers
+namespace Mvc5IdentityExample.Web.Controllers
 {
 	[Authorize]
 	public class AccountController : Controller
 	{
-		private readonly ApplicationDbContext _repository = new ApplicationDbContext();
+		private readonly UserManager<IdentityUser, Guid> _userManager;
+		private IUnitOfWork _unitOfWork;
 
-		public AccountController()
-			: this(new UserManager<User>(new UserStore<User>(new ApplicationDbContext())))
+		public AccountController(UserManager<IdentityUser, Guid> userManager, IUnitOfWork unitOfWork)
 		{
+			_userManager = userManager;
+			_unitOfWork = unitOfWork;
 		}
-
-		public AccountController(UserManager<User> userManager)
-		{
-			UserManager = userManager;
-		}
-
-		public UserManager<User> UserManager { get; private set; }
 
 		//
 		// POST: /Account/Login
@@ -40,19 +36,11 @@ namespace Simple.MVC.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var user = await UserManager.FindAsync(model.UserName, model.Password);
+				var user = await _userManager.FindAsync(model.UserName, model.Password);
 				if (user != null)
 				{
 					await SignInAsync(user, model.RememberMe);
-					var myUser = _repository.Users.Single(x => x.Id == user.Id);
-					LoggedInUserDTO loggedInUserDTO = new LoggedInUserDTO
-					{
-						Id = myUser.Id,
-						UserName = myUser.UserName,
-						FirstName = myUser.FirstName,
-						LastName = myUser.LastName,
-						Email = myUser.Email
-					};
+					var loggedInUserDTO = Mapper.Map<LoggedInUserDTO>(_unitOfWork.UserRepository.FindById(user.Id));
 					return new JsonNetResult { Data = loggedInUserDTO };
 				}
 
@@ -72,24 +60,17 @@ namespace Simple.MVC.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var user = new User() { UserName = model.UserName };
-				var result = await UserManager.CreateAsync(user, model.Password);
+				var user = new IdentityUser() { UserName = model.UserName };
+				var result = await _userManager.CreateAsync(user, model.Password);
 				if (result.Succeeded)
 				{
 					await SignInAsync(user, isPersistent: false);
-					//LoggedInUserDTO loggedInUserDTO = User.Identity.GetIdentityLoggedInUserDto();
-					var myUser = _repository.Users.Single(x => x.Id == user.Id);
-					LoggedInUserDTO loggedInUserDTO = new LoggedInUserDTO
-					{
-						Id = myUser.Id,
-						UserName = myUser.UserName,
-						FirstName = myUser.FirstName,
-						LastName = myUser.LastName,
-						Email = myUser.Email
-					};
+					var loggedInUserDTO = Mapper.Map<LoggedInUserDTO>(_unitOfWork.UserRepository.FindById(user.Id));
 					return new JsonNetResult { Data = loggedInUserDTO };
 				}
-					AddErrors(result);
+
+				AddErrors(result);
+				
 			}
 
 			// If we got this far, something failed, redisplay form
@@ -103,7 +84,7 @@ namespace Simple.MVC.Controllers
 		public async Task<ActionResult> Disassociate(string loginProvider, string providerKey)
 		{
 			ManageMessageId? message = null;
-			IdentityResult result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
+			IdentityResult result = await _userManager.RemoveLoginAsync(getGuid(User.Identity.GetUserId()), new UserLoginInfo(loginProvider, providerKey));
 			if (result.Succeeded)
 			{
 				message = ManageMessageId.RemoveLoginSuccess;
@@ -143,7 +124,7 @@ namespace Simple.MVC.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+					IdentityResult result = await _userManager.ChangePasswordAsync(getGuid(User.Identity.GetUserId()), model.OldPassword, model.NewPassword);
 					if (result.Succeeded)
 					{
 						return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
@@ -165,7 +146,7 @@ namespace Simple.MVC.Controllers
 
 				if (ModelState.IsValid)
 				{
-					IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+					IdentityResult result = await _userManager.AddPasswordAsync(getGuid(User.Identity.GetUserId()), model.NewPassword);
 					if (result.Succeeded)
 					{
 						return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
@@ -204,7 +185,7 @@ namespace Simple.MVC.Controllers
 			}
 
 			// Sign in the user with this external login provider if the user already has a login
-			var user = await UserManager.FindAsync(loginInfo.Login);
+			var user = await _userManager.FindAsync(loginInfo.Login);
 			if (user != null)
 			{
 				await SignInAsync(user, isPersistent: false);
@@ -238,7 +219,7 @@ namespace Simple.MVC.Controllers
 			{
 				return RedirectToAction("Manage", new { Message = ManageMessageId.Error });
 			}
-			var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
+			var result = await _userManager.AddLoginAsync(getGuid(User.Identity.GetUserId()), loginInfo.Login);
 			if (result.Succeeded)
 			{
 				return RedirectToAction("Manage");
@@ -266,11 +247,11 @@ namespace Simple.MVC.Controllers
 				{
 					return View("ExternalLoginFailure");
 				}
-				var user = new User() { UserName = model.UserName };
-				var result = await UserManager.CreateAsync(user);
+				var user = new IdentityUser() { UserName = model.UserName };
+				var result = await _userManager.CreateAsync(user);
 				if (result.Succeeded)
 				{
-					result = await UserManager.AddLoginAsync(user.Id, info.Login);
+					result = await _userManager.AddLoginAsync(user.Id, info.Login);
 					if (result.Succeeded)
 					{
 						await SignInAsync(user, isPersistent: false);
@@ -291,7 +272,7 @@ namespace Simple.MVC.Controllers
 		public ActionResult LogOff()
 		{
 			AuthenticationManager.SignOut();
-			return new JsonNetResult{ Data = new SimpleModelState() };
+			return new JsonNetResult { Data = new SimpleModelState() };
 		}
 
 		//
@@ -305,17 +286,16 @@ namespace Simple.MVC.Controllers
 		[ChildActionOnly]
 		public ActionResult RemoveAccountList()
 		{
-			var linkedAccounts = UserManager.GetLogins(User.Identity.GetUserId());
+			var linkedAccounts = _userManager.GetLogins(getGuid(User.Identity.GetUserId()));
 			ViewBag.ShowRemoveButton = HasPassword() || linkedAccounts.Count > 1;
 			return (ActionResult)PartialView("_RemoveAccountPartial", linkedAccounts);
 		}
 
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && UserManager != null)
+			if (disposing && _userManager != null)
 			{
-				UserManager.Dispose();
-				UserManager = null;
+				_userManager.Dispose();
 			}
 			base.Dispose(disposing);
 		}
@@ -332,14 +312,14 @@ namespace Simple.MVC.Controllers
 			}
 		}
 
-		private async Task SignInAsync(User user, bool isPersistent)
+		private async Task SignInAsync(IdentityUser user, bool isPersistent)
 		{
 			AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-			var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+			var identity = await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
 
 			// Grab user's info
-			var userId = identity.GetUserId();
-			var loggedInUserProfile = _repository.Users.SingleOrDefault(x => x.Id == userId);
+			var userId = getGuid(identity.GetUserId());
+			var loggedInUserProfile = _unitOfWork.UserRepository.FindById(userId);
 
 			// Add it to claim (accessible until logged out)
 			if (loggedInUserProfile != null)
@@ -368,7 +348,7 @@ namespace Simple.MVC.Controllers
 
 		private bool HasPassword()
 		{
-			var user = UserManager.FindById(User.Identity.GetUserId());
+			var user = _userManager.FindById(getGuid(User.Identity.GetUserId()));
 			if (user != null)
 			{
 				return user.PasswordHash != null;
@@ -423,6 +403,13 @@ namespace Simple.MVC.Controllers
 				}
 				context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
 			}
+		}
+
+		private Guid getGuid(string value)
+		{
+			var result = default(Guid);
+			Guid.TryParse(value, out result);
+			return result;
 		}
 		#endregion
 	}
