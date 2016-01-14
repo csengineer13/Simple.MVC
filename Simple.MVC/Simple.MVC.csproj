@@ -175,6 +175,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Base\BaseController.cs" />
     <Compile Include="Common\CustomIdentityExtensions.cs" />
     <Compile Include="Common\JsonNetResult.cs" />
     <Compile Include="Common\ModelStateHelper.cs" />
