@@ -9,12 +9,13 @@ namespace Simple.Repository.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(Simple.Repository.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
+			UserSeed.Seed(context);
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data. E.g.
