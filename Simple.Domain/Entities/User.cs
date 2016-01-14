@@ -5,6 +5,11 @@ namespace Simple.Domain.Entities
 {
 	public class User
 	{
+		// Custom
+		public string FirstName { get; set; }
+		public string LastName { get; set; }
+		public string Email { get; set; }
+
 		#region Fields
 		private ICollection<Claim> _claims;
 		private ICollection<ExternalLogin> _externalLogins;
