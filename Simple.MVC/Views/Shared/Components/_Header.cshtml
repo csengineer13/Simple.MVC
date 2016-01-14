@@ -12,7 +12,7 @@
 
 		<div id="navbar" class="navbar-collapse collapse">
 
-			<!-- ko if: User.UserName() == null -->
+			<!-- ko if: User.UserName() == "" -->
 			<form class="navbar-form navbar-right" data-bind="with: LoginForm">
 				<div class="form-group">
 					<input type="text" placeholder="UserName" class="form-control" data-bind="value: UserName">
@@ -23,11 +23,11 @@
 				<button type="submit" class="btn btn-success" data-bind="click: $parent.SignIn">Sign in</button>
 			</form>
 			<!-- /ko -->
-			<!-- ko ifnot: User.UserName() == null -->
+			<!-- ko ifnot: User.UserName() == "" -->
 			<div class="navbar-right">
 				<div style="color: #FFFFFF">
 					Welcome, <span style="font-weight: bold;" data-bind="text: User.UserName"></span>!
-					<a href="#">Logout</a>
+					<a href="/Account/LogOff" data-bind="click: SignOut">Logout</a>
 				</div>
 			</div>
 			<!-- /ko -->
