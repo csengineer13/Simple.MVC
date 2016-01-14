@@ -1,9 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
+using Simple.MVC.Common;
+using Simple.ViewModel.DTO;
 using Simple.ViewModel.ViewModels;
 
 namespace Simple.MVC.Controllers
@@ -11,17 +16,19 @@ namespace Simple.MVC.Controllers
 	[Authorize]
 	public class AccountController : Controller
 	{
+		private ApplicationDbContext _repository = new ApplicationDbContext();
+
 		public AccountController()
-			: this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+			: this(new UserManager<User>(new UserStore<User>(new ApplicationDbContext())))
 		{
 		}
 
-		public AccountController(UserManager<ApplicationUser> userManager)
+		public AccountController(UserManager<User> userManager)
 		{
 			UserManager = userManager;
 		}
 
-		public UserManager<ApplicationUser> UserManager { get; private set; }
+		public UserManager<User> UserManager { get; private set; }
 
 		//
 		// GET: /Account/Login
@@ -45,15 +52,15 @@ namespace Simple.MVC.Controllers
 				if (user != null)
 				{
 					await SignInAsync(user, model.RememberMe);
-					return RedirectToLocal(returnUrl);
+					LoggedInUserDTO loggedInUserDTO = User.Identity.GetIdentityLoggedInUserDto();
+					return new JsonNetResult { Data = loggedInUserDTO };
 				}
 
 				ModelState.AddModelError("", "Invalid username or password.");
-
 			}
 
 			// If we got this far, something failed, redisplay form
-			return View(model);
+			return new JsonNetResult { Data = ModelState.ToJsonValidation() };
 		}
 
 		//
@@ -73,7 +80,7 @@ namespace Simple.MVC.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var user = new ApplicationUser() { UserName = model.UserName };
+				var user = new User() { UserName = model.UserName };
 				var result = await UserManager.CreateAsync(user, model.Password);
 				if (result.Succeeded)
 				{
@@ -260,7 +267,7 @@ namespace Simple.MVC.Controllers
 				{
 					return View("ExternalLoginFailure");
 				}
-				var user = new ApplicationUser() { UserName = model.UserName };
+				var user = new User() { UserName = model.UserName };
 				var result = await UserManager.CreateAsync(user);
 				if (result.Succeeded)
 				{
@@ -326,10 +333,20 @@ namespace Simple.MVC.Controllers
 			}
 		}
 
-		private async Task SignInAsync(ApplicationUser user, bool isPersistent)
+		private async Task SignInAsync(User user, bool isPersistent)
 		{
 			AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
 			var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+
+			// Grab user's info
+			var userId = identity.GetUserId();
+			var loggedInUserProfile = _repository.Users.SingleOrDefault(x => x.Id == userId);
+
+			// Add it to claim (accessible until logged out)
+			identity.AddClaim(new Claim(ClaimTypes.GivenName, loggedInUserProfile == null ? string.Empty : loggedInUserProfile.FirstName));
+			identity.AddClaim(new Claim(ClaimTypes.Surname, loggedInUserProfile == null ? string.Empty : loggedInUserProfile.LastName));
+			identity.AddClaim(new Claim(ClaimTypes.Email, loggedInUserProfile == null ? string.Empty : loggedInUserProfile.Email));
+
 			AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);
 		}
 
