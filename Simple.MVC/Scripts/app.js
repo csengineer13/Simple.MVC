@@ -46,6 +46,34 @@ var VmBase = (function () {
 		//this.NewItemDetail = mapper.toJs(this.ItemDetail);
 	};
 
+	// setup SignIn Method 
+	VmBase.SignIn = function () {
+		// this == LoginForm (see base VM;; C#)
+		var myForm = ko.toJS(this);
+		myForm.returnUrl = "";
+
+
+		// todo: loading icon...
+		// todo: populate loggedInUser...
+		// todo: verify loggedInUser is populated on fullpage refresh...
+		// todo: verify logout...
+
+		//var promise =
+		$.ajax({
+			method: "POST",
+			url: "/Account/Login",
+			data: myForm
+		})
+		.done(function (data) {
+			console.log("DONE");
+			console.log(data);
+		})
+		.fail(function (data) {
+			console.log("FAIL");
+			console.log(data);
+		});
+	};
+
 	return VmBase;
 })();
 
@@ -61,34 +89,6 @@ var Home =
     		this.data = data;
     		ko.applyBindings(this);
     		$('.hideUnbound').removeClass('hideUnbound');
-
-    		// setup SignIn Method 
-    		this.SignIn = function () {
-    			// this == LoginForm (see base VM;; C#)
-    			var myForm = ko.toJS(this);
-    			myForm.returnUrl = "";
-
-
-    			// todo: loading icon...
-    			// todo: populate loggedInUser...
-    			// todo: verify loggedInUser is populated on fullpage refresh...
-    			// todo: verify logout...
-
-    			//var promise =
-    			$.ajax({
-    				method: "POST",
-    				url: "/Account/Login",
-    				data: myForm
-    			})
-				.done(function (data) {
-					console.log("DONE");
-					console.log(data);
-				})
-				.fail(function (data) {
-					console.log("FAIL");
-					console.log(data);
-				});
-    		};
     	}
 
     	return Home;
