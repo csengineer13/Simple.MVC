@@ -15,6 +15,8 @@ namespace Simple.Repository.Migrations.Seed
 			var testUsers = new Faker<User>()
 				.RuleFor(u => u.UserId, f => Guid.NewGuid())
 				.RuleFor(u => u.UserName, f => f.Name.FirstName())
+				.RuleFor(u => u.LastName, f => f.Name.LastName())
+				.RuleFor(u => u.Email, f => f.Internet.Email())
 				//.RuleFor(u => u.Logins, f => 0)
 				;
 
