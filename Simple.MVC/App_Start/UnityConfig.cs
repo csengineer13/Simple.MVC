@@ -5,6 +5,7 @@ using Simple.Domain;
 using Simple.MVC.Identity;
 using System;
 using System.Web.Mvc;
+using Simple.Domain.Repositories;
 using Unity.Mvc5;
 
 namespace Simple.MVC

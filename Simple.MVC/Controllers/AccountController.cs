@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
-using Simple.Domain.Repositories;
+using Simple.Domain;
 using Simple.MVC.Common;
 using Simple.ViewModel.Common;
 using Simple.ViewModel.DTO;
@@ -19,12 +19,12 @@ namespace Mvc5IdentityExample.Web.Controllers
 	public class AccountController : Controller
 	{
 		private readonly UserManager<IdentityUser, Guid> _userManager;
-		private IUserRepository _userRepository;
+		private IUnitOfWork _unitOfWork;
 
-		public AccountController(UserManager<IdentityUser, Guid> userManager, IUserRepository userRepository)
+		public AccountController(UserManager<IdentityUser, Guid> userManager, IUnitOfWork unitOfWork)
 		{
 			_userManager = userManager;
-			_userRepository = userRepository;
+			_unitOfWork = unitOfWork;
 		}
 
 		//
@@ -40,7 +40,7 @@ namespace Mvc5IdentityExample.Web.Controllers
 				if (user != null)
 				{
 					await SignInAsync(user, model.RememberMe);
-					var loggedInUserDTO = Mapper.Map<LoggedInUserDTO>(_userRepository.FindById(user.Id));
+					var loggedInUserDTO = Mapper.Map<LoggedInUserDTO>(_unitOfWork.UserRepository.FindById(user.Id));
 					return new JsonNetResult { Data = loggedInUserDTO };
 				}
 
@@ -65,7 +65,7 @@ namespace Mvc5IdentityExample.Web.Controllers
 				if (result.Succeeded)
 				{
 					await SignInAsync(user, isPersistent: false);
-					var loggedInUserDTO = Mapper.Map<LoggedInUserDTO>(_userRepository.FindById(user.Id));
+					var loggedInUserDTO = Mapper.Map<LoggedInUserDTO>(_unitOfWork.UserRepository.FindById(user.Id));
 					return new JsonNetResult { Data = loggedInUserDTO };
 				}
 
@@ -318,8 +318,8 @@ namespace Mvc5IdentityExample.Web.Controllers
 			var identity = await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
 
 			// Grab user's info
-			var userId = identity.GetUserId();
-			var loggedInUserProfile = _userRepository.FindById(userId);
+			var userId = getGuid(identity.GetUserId());
+			var loggedInUserProfile = _unitOfWork.UserRepository.FindById(userId);
 
 			// Add it to claim (accessible until logged out)
 			if (loggedInUserProfile != null)
