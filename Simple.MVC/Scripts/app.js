@@ -126,5 +126,23 @@ var Home =
     })(base.VmBase);
 simple.Home = Home;
 
+// Modules / AggregateRoots
+// Function that is called to init VM for Home Route
+var User =
+    (function () {
+    	function User(data) {
+    		VmBase.call(this, data); // call base constructor
+
+    		this.data = data;
+    		ko.applyBindings(this);
+    		$('.hideUnbound').removeClass('hideUnbound');
+
+    	}
+
+    	return User;
+    })(base.VmBase);
+simple.User = User;
+
 // Setup the prototype chain the right way
 extend(VmBase, Home);
+extend(VmBase, User);
