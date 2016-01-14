@@ -5,7 +5,9 @@ using System;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Simple.Domain.Repositories;
 using Simple.MVC.Common;
+using Simple.ViewModel.DTO;
 using Simple.ViewModel.ViewModels;
 
 namespace Mvc5IdentityExample.Web.Controllers
@@ -14,10 +16,12 @@ namespace Mvc5IdentityExample.Web.Controllers
 	public class AccountController : Controller
 	{
 		private readonly UserManager<IdentityUser, Guid> _userManager;
+		private IUserRepository _userRepository;
 
-		public AccountController(UserManager<IdentityUser, Guid> userManager)
+		public AccountController(UserManager<IdentityUser, Guid> userManager, IUserRepository userRepository)
 		{
 			_userManager = userManager;
+			_userRepository = userRepository;
 		}
 
 		//
@@ -33,16 +37,23 @@ namespace Mvc5IdentityExample.Web.Controllers
 				if (user != null)
 				{
 					await SignInAsync(user, model.RememberMe);
-					return RedirectToLocal(returnUrl);
+					var myUser = _userRepository.FindById(user.Id);
+					LoggedInUserDTO loggedInUserDTO = new LoggedInUserDTO
+					{
+						Id = myUser.UserId.ToString(),
+						UserName = myUser.UserName,
+						FirstName = myUser.FirstName,
+						LastName = myUser.LastName,
+						Email = myUser.Email
+					};
+					return new JsonNetResult { Data = loggedInUserDTO };
 				}
-				else
-				{
-					ModelState.AddModelError("", "Invalid username or password.");
-				}
+
+				ModelState.AddModelError("", "Invalid username or password.");
 			}
 
 			// If we got this far, something failed, redisplay form
-			return new JsonNetResult { Data = "" };
+			return new JsonNetResult { Data = ModelState.ToJsonValidation() };
 		}
 
 		//
@@ -59,16 +70,24 @@ namespace Mvc5IdentityExample.Web.Controllers
 				if (result.Succeeded)
 				{
 					await SignInAsync(user, isPersistent: false);
-					return RedirectToAction("Index", "Home");
+					var myUser = _userRepository.FindById(user.Id);
+					LoggedInUserDTO loggedInUserDTO = new LoggedInUserDTO
+					{
+						Id = myUser.UserId.ToString(),
+						UserName = myUser.UserName,
+						FirstName = myUser.FirstName,
+						LastName = myUser.LastName,
+						Email = myUser.Email
+					};
+					return new JsonNetResult { Data = loggedInUserDTO };
 				}
-				else
-				{
-					AddErrors(result);
-				}
+
+				AddErrors(result);
+				
 			}
 
 			// If we got this far, something failed, redisplay form
-			return new JsonNetResult { Data = "" };
+			return new JsonNetResult { Data = ModelState.ToJsonValidation() };
 		}
 
 		//
