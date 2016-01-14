@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -16,7 +15,7 @@ namespace Simple.MVC.Controllers
 	[Authorize]
 	public class AccountController : Controller
 	{
-		private ApplicationDbContext _repository = new ApplicationDbContext();
+		private readonly ApplicationDbContext _repository = new ApplicationDbContext();
 
 		public AccountController()
 			: this(new UserManager<User>(new UserStore<User>(new ApplicationDbContext())))
@@ -29,15 +28,6 @@ namespace Simple.MVC.Controllers
 		}
 
 		public UserManager<User> UserManager { get; private set; }
-
-		//
-		// GET: /Account/Login
-		[AllowAnonymous]
-		public ActionResult Login(string returnUrl)
-		{
-			ViewBag.ReturnUrl = returnUrl;
-			return View();
-		}
 
 		//
 		// POST: /Account/Login
@@ -64,18 +54,10 @@ namespace Simple.MVC.Controllers
 		}
 
 		//
-		// GET: /Account/Register
-		[AllowAnonymous]
-		public ActionResult Register()
-		{
-			return View();
-		}
-
-		//
 		// POST: /Account/Register
 		[HttpPost]
 		[AllowAnonymous]
-		[ValidateAntiForgeryToken]
+		//[ValidateAntiForgeryToken]
 		public async Task<ActionResult> Register(RegisterViewModel model)
 		{
 			if (ModelState.IsValid)
@@ -85,16 +67,14 @@ namespace Simple.MVC.Controllers
 				if (result.Succeeded)
 				{
 					await SignInAsync(user, isPersistent: false);
-					return RedirectToAction("Index", "Home");
+					LoggedInUserDTO loggedInUserDTO = User.Identity.GetIdentityLoggedInUserDto();
+					return new JsonNetResult { Data = loggedInUserDTO };
 				}
-				else
-				{
 					AddErrors(result);
-				}
 			}
 
 			// If we got this far, something failed, redisplay form
-			return View(model);
+			return new JsonNetResult { Data = ModelState.ToJsonValidation() };
 		}
 
 		//
@@ -343,9 +323,9 @@ namespace Simple.MVC.Controllers
 			var loggedInUserProfile = _repository.Users.SingleOrDefault(x => x.Id == userId);
 
 			// Add it to claim (accessible until logged out)
-			identity.AddClaim(new Claim(ClaimTypes.GivenName, loggedInUserProfile == null ? string.Empty : loggedInUserProfile.FirstName));
-			identity.AddClaim(new Claim(ClaimTypes.Surname, loggedInUserProfile == null ? string.Empty : loggedInUserProfile.LastName));
-			identity.AddClaim(new Claim(ClaimTypes.Email, loggedInUserProfile == null ? string.Empty : loggedInUserProfile.Email));
+			identity.AddClaim(new Claim(ClaimTypes.GivenName, loggedInUserProfile == null ? " " : loggedInUserProfile.FirstName));
+			identity.AddClaim(new Claim(ClaimTypes.Surname, loggedInUserProfile == null ? " " : loggedInUserProfile.LastName));
+			identity.AddClaim(new Claim(ClaimTypes.Email, loggedInUserProfile == null ? " " : loggedInUserProfile.Email));
 
 			AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);
 		}
