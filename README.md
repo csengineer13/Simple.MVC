@@ -2,6 +2,23 @@
 
 A .NET MVC project with pre-installed nuget packages, project setup, and basic CRUD to reduce new project startup time.
 
+## TODO:
+
+Listed in order of priority
+
+- Boilerplate controller for CRUD
+	- Automatic table/list generation
+	- Paging, sorting, filtering
+	- View/Edit detail
+- Add SAMMY.JS
+- Boilerplate WebAPI controller for CRUD
+- Add simple model errors
+- Add simple "anywhere alerts"
+- Add simple "anywhere "
+- Base promises?
+- Example external API boilerplate?
+- Add Select2.JS
+
 ## Dependencies
 
 - Node + NPM
@@ -49,7 +66,7 @@ This is for small/simple projects. If you wanted to abstract things out further,
 - Create additional projects:
 	- Simple.Repository
 	- Simple.Service
-	- Simple.Identity
+	- Simple.Identity (Identity is IN MVC right now. Killing full AutoMapper maps in VM Proj [User])
 	- Simple.ExternalServices
 - Implement Dependency Injection using [Unity](https://github.com/unitycontainer/unity/tree/master/quickstarts)
 - Flush out Base/Common/[AggregateRoot](http://martinfowler.com/bliki/DDD_Aggregate.html) classes
