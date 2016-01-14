@@ -3,10 +3,12 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Simple.MVC.Common;
+using Simple.ViewModel.Common;
 using Simple.ViewModel.DTO;
 using Simple.ViewModel.ViewModels;
 
@@ -42,7 +44,15 @@ namespace Simple.MVC.Controllers
 				if (user != null)
 				{
 					await SignInAsync(user, model.RememberMe);
-					LoggedInUserDTO loggedInUserDTO = User.Identity.GetIdentityLoggedInUserDto();
+					var myUser = _repository.Users.Single(x => x.Id == user.Id);
+					LoggedInUserDTO loggedInUserDTO = new LoggedInUserDTO
+					{
+						Id = myUser.Id,
+						UserName = myUser.UserName,
+						FirstName = myUser.FirstName,
+						LastName = myUser.LastName,
+						Email = myUser.Email
+					};
 					return new JsonNetResult { Data = loggedInUserDTO };
 				}
 
@@ -67,7 +77,16 @@ namespace Simple.MVC.Controllers
 				if (result.Succeeded)
 				{
 					await SignInAsync(user, isPersistent: false);
-					LoggedInUserDTO loggedInUserDTO = User.Identity.GetIdentityLoggedInUserDto();
+					//LoggedInUserDTO loggedInUserDTO = User.Identity.GetIdentityLoggedInUserDto();
+					var myUser = _repository.Users.Single(x => x.Id == user.Id);
+					LoggedInUserDTO loggedInUserDTO = new LoggedInUserDTO
+					{
+						Id = myUser.Id,
+						UserName = myUser.UserName,
+						FirstName = myUser.FirstName,
+						LastName = myUser.LastName,
+						Email = myUser.Email
+					};
 					return new JsonNetResult { Data = loggedInUserDTO };
 				}
 					AddErrors(result);
@@ -268,11 +287,11 @@ namespace Simple.MVC.Controllers
 		//
 		// POST: /Account/LogOff
 		[HttpPost]
-		[ValidateAntiForgeryToken]
+		//[ValidateAntiForgeryToken]
 		public ActionResult LogOff()
 		{
 			AuthenticationManager.SignOut();
-			return RedirectToAction("Index", "Home");
+			return new JsonNetResult{ Data = new SimpleModelState() };
 		}
 
 		//
@@ -323,9 +342,18 @@ namespace Simple.MVC.Controllers
 			var loggedInUserProfile = _repository.Users.SingleOrDefault(x => x.Id == userId);
 
 			// Add it to claim (accessible until logged out)
-			identity.AddClaim(new Claim(ClaimTypes.GivenName, loggedInUserProfile == null ? " " : loggedInUserProfile.FirstName));
-			identity.AddClaim(new Claim(ClaimTypes.Surname, loggedInUserProfile == null ? " " : loggedInUserProfile.LastName));
-			identity.AddClaim(new Claim(ClaimTypes.Email, loggedInUserProfile == null ? " " : loggedInUserProfile.Email));
+			if (loggedInUserProfile != null)
+			{
+				identity.AddClaim(new Claim(ClaimTypes.GivenName, loggedInUserProfile.FirstName ?? " "));
+				identity.AddClaim(new Claim(ClaimTypes.Surname, loggedInUserProfile.LastName ?? " "));
+				identity.AddClaim(new Claim(ClaimTypes.Email, loggedInUserProfile.Email ?? " "));
+			}
+			else
+			{
+				identity.AddClaim(new Claim(ClaimTypes.GivenName, ""));
+				identity.AddClaim(new Claim(ClaimTypes.Surname, ""));
+				identity.AddClaim(new Claim(ClaimTypes.Email, ""));
+			}
 
 			AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);
 		}
