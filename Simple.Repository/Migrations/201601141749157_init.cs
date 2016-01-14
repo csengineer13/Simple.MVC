@@ -24,6 +24,9 @@ namespace Simple.Repository.Migrations
                 c => new
                     {
                         UserId = c.Guid(nullable: false),
+                        FirstName = c.String(),
+                        LastName = c.String(),
+                        Email = c.String(),
                         UserName = c.String(nullable: false, maxLength: 256),
                         PasswordHash = c.String(maxLength: 4000),
                         SecurityStamp = c.String(maxLength: 4000),
