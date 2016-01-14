@@ -1,7 +1,5 @@
-﻿using System;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Security.Principal;
-using Microsoft.AspNet.Identity;
 using Simple.ViewModel.DTO;
 
 namespace Simple.MVC.Common
@@ -15,10 +13,11 @@ namespace Simple.MVC.Common
 
 			var user = new LoggedInUserDTO
 			{
-				Id = Guid.Parse(identity.GetUserId()), // Could blow up
-				UserName = identity.GetUserName(),
+				Id = (identity as ClaimsIdentity).FirstOrNull(ClaimTypes.NameIdentifier),
+				UserName = (identity as ClaimsIdentity).FirstOrNull(ClaimTypes.Name),
 				FirstName = (identity as ClaimsIdentity).FirstOrNull(ClaimTypes.GivenName),
-				LastName = (identity as ClaimsIdentity).FirstOrNull(ClaimTypes.Surname)
+				LastName = (identity as ClaimsIdentity).FirstOrNull(ClaimTypes.Surname),
+				Email = (identity as ClaimsIdentity).FirstOrNull(ClaimTypes.Email)
 			};
 
 			return user;
@@ -28,7 +27,7 @@ namespace Simple.MVC.Common
 		{
 			var val = identity.FindFirst(claimType);
 
-			return val == null ? null : val.Value;
+			return val == null ? " " : val.Value;
 		}
 	}
 }
