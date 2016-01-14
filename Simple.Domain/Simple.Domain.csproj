@@ -68,7 +68,10 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Address\Address.cs" />
+    <Compile Include="Model\Organization\Organization.cs" />
     <Compile Include="Model\Test\Test.cs" />
+    <Compile Include="Model\User\DomainUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
