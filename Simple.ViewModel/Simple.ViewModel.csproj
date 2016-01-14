@@ -88,9 +88,12 @@
     <Compile Include="Base\ViewModelBase.cs" />
     <Compile Include="Base\ViewModelNonGenericBase.cs" />
     <Compile Include="Common\ColumnData.cs" />
+    <Compile Include="Common\HtmlHelperAttribute\HiddenAttribute.cs" />
+    <Compile Include="Common\HtmlHelperAttribute\SortAttribute.cs" />
     <Compile Include="Common\KOMapping.cs" />
     <Compile Include="Common\SimpleError.cs" />
     <Compile Include="Common\SimpleModelState.cs" />
+    <Compile Include="Common\ViewModelMeta.cs" />
     <Compile Include="DTO\Common\PageInfoDTO.cs" />
     <Compile Include="DTO\Home\HomeDetailDTO.cs" />
     <Compile Include="DTO\Home\HomeDTO.cs" />
