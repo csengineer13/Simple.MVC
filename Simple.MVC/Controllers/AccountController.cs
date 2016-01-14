@@ -1,13 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Simple.MVC.Common;
+using Simple.MVC.Identity;
 using Simple.ViewModel.Common;
 using Simple.ViewModel.DTO;
 using Simple.ViewModel.ViewModels;
@@ -17,19 +18,15 @@ namespace Simple.MVC.Controllers
 	[Authorize]
 	public class AccountController : Controller
 	{
-		private readonly ApplicationDbContext _repository = new ApplicationDbContext();
+		//private readonly ApplicationDbContext _repository = new ApplicationDbContext();
+		private readonly UserManager<IdentityUser, Guid> _userManager;
 
-		public AccountController()
-			: this(new UserManager<User>(new UserStore<User>(new ApplicationDbContext())))
+
+		public AccountController(UserManager<IdentityUser, Guid> userManager)
 		{
+			_userManager = userManager;
 		}
 
-		public AccountController(UserManager<User> userManager)
-		{
-			UserManager = userManager;
-		}
-
-		public UserManager<User> UserManager { get; private set; }
 
 		//
 		// POST: /Account/Login
@@ -423,6 +420,13 @@ namespace Simple.MVC.Controllers
 				}
 				context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
 			}
+		}
+
+		private Guid getGuid(string value)
+		{
+			var result = default(Guid);
+			Guid.TryParse(value, out result);
+			return result;
 		}
 		#endregion
 	}
