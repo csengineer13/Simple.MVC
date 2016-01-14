@@ -68,11 +68,19 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Claim.cs" />
+    <Compile Include="Entities\ExternalLogin.cs" />
+    <Compile Include="Entities\Role.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Model\Address\Address.cs" />
     <Compile Include="Model\Organization\Organization.cs" />
     <Compile Include="Model\Test\Test.cs" />
-    <Compile Include="Model\User\DomainUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IExternalLoginRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\IRoleRepository.cs" />
+    <Compile Include="Repositories\IUserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Base\" />
