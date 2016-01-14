@@ -111,9 +111,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
+    <!--     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
+    </Reference> -->
     <Reference Include="System.Net.Http.Formatting">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
@@ -175,14 +175,17 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Common\CustomIdentityExtensions.cs" />
+    <Compile Include="Common\JsonNetResult.cs" />
+    <Compile Include="Common\ModelStateHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201601102304443_init.cs" />
-    <Compile Include="Migrations\201601102304443_init.Designer.cs">
-      <DependentUpon>201601102304443_init.cs</DependentUpon>
+    <Compile Include="Migrations\201601140312584_init.cs" />
+    <Compile Include="Migrations\201601140312584_init.Designer.cs">
+      <DependentUpon>201601140312584_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Seed\UserSeed.cs" />
@@ -260,8 +263,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201601102304443_init.resx">
-      <DependentUpon>201601102304443_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201601140312584_init.resx">
+      <DependentUpon>201601140312584_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
